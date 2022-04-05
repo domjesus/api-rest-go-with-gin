@@ -8,6 +8,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func Saudacoes(c *gin.Context) {
+	nome := c.Param("nome")
+
+	c.JSON(http.StatusOK, gin.H{
+		"API diz": "E aí " + nome + " baum?",
+	})
+}
+
 func ExibeTodosAlunos(c *gin.Context) {
 	var alunos []models.Aluno
 
@@ -54,6 +62,12 @@ func CriaNovoAluno(c *gin.Context) {
 		return
 	}
 
+	if err := models.ValidaDadosDealunos(&aluno); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error()})
+		return
+	}
+
 	database.DB.Create(&aluno)
 	c.JSON(http.StatusOK, aluno)
 }
@@ -75,6 +89,12 @@ func EditaAluno(c *gin.Context) {
 	database.DB.First(&aluno, id)
 
 	if err := c.ShouldBindJSON(&aluno); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error()})
+		return
+	}
+
+	if err := models.ValidaDadosDealunos(&aluno); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error()})
 		return
