@@ -27,6 +27,7 @@ require (
 )
 
 require (
+	github.com/heroku/x v0.0.50
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.11.0 // indirect
 	github.com/jackc/pgio v1.0.0 // indirect
