@@ -5,8 +5,6 @@ import (
 	"log"
 	"os"
 
-	"os"
-
 	"github.com/domjesus/api-go-gin/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
