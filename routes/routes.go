@@ -1,12 +1,8 @@
 package routes
 
 import (
-	"log"
-	"net/http"
-
 	"github.com/domjesus/api-go-gin/controllers"
 	"github.com/gin-gonic/gin"
-	"github.com/gorilla/handlers"
 )
 
 func HandleRequests() {
