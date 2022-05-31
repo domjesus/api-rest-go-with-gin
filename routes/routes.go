@@ -31,7 +31,7 @@ func HandleRequests() {
 	//router.LoadHTMLFiles("templates/template1.html", "templates/template2.html")
 	r.NoRoute(controllers.RouteNotFound)
 
-	log.Fatal(http.ListenAndServe(":8001", handlers.CORS(handlers.AllowedOrigins([]string{"*"}))(r)))
+	// log.Fatal(http.ListenAndServe(":8001", handlers.CORS(handlers.AllowedOrigins([]string{"*"}))(r)))
 	// r.Use(cors.New(config))
 	// r.Use(cors.Default())
 
