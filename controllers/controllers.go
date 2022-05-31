@@ -24,14 +24,6 @@ func ExibeTodosAlunos(c *gin.Context) {
 	c.JSON(200, alunos)
 }
 
-func Home(c *gin.Context) {
-
-	c.HTML(http.StatusOK, "index.html", gin.H{
-		"title": "Main website altered",
-	})
-
-}
-
 func ExibeUmAluno(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var aluno models.Aluno
@@ -121,4 +113,19 @@ func BuscaAlunoPorCPF(c *gin.Context) {
 
 	c.JSON(http.StatusOK, aluno)
 
+}
+
+func Home(c *gin.Context) {
+	var alunos []models.Aluno
+
+	database.DB.Find(&alunos)
+
+	c.HTML(http.StatusOK, "index.html", gin.H{
+		"alunos": alunos,
+	})
+
+}
+
+func RouteNotFound(c *gin.Context) {
+	c.HTML(http.StatusNotFound, "404.html", nil)
 }
