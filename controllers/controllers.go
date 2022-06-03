@@ -48,7 +48,8 @@ func ExibeUmAluno(c *gin.Context) {
 
 func CriaNovoAluno(c *gin.Context) {
 	var aluno models.Aluno
-	if err := c.ShouldBindJSON(&aluno); err != nil {
+
+	if err := c.ShouldBind(&aluno); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error()})
 		return
@@ -61,7 +62,8 @@ func CriaNovoAluno(c *gin.Context) {
 	}
 
 	database.DB.Create(&aluno)
-	c.JSON(http.StatusOK, aluno)
+	// c.Request.URL.Path = "/alunos_listar"
+	c.Redirect(301, "/alunos_listar")
 }
 
 func DeletaUmAluno(c *gin.Context) {
@@ -126,6 +128,35 @@ func Home(c *gin.Context) {
 
 }
 
+func Outro(c *gin.Context) {
+	var alunos []models.Aluno
+
+	database.DB.Find(&alunos)
+
+	c.HTML(http.StatusOK, "index2.html", gin.H{
+		"alunos": alunos,
+	})
+
+}
+
 func RouteNotFound(c *gin.Context) {
 	c.HTML(http.StatusNotFound, "404.html", nil)
+}
+
+func ListaAlunos(c *gin.Context) {
+	var alunos []models.Aluno
+
+	database.DB.Find(&alunos)
+
+	c.HTML(200, "alunos.html", gin.H{
+		"alunos": alunos,
+	})
+}
+
+func AlunoCreate(c *gin.Context) {
+	var alunos []models.Aluno
+
+	database.DB.Find(&alunos)
+
+	c.HTML(200, "aluno_create.html", nil)
 }

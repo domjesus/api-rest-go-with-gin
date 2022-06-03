@@ -1,13 +1,21 @@
 package routes
 
 import (
+	"path/filepath"
+
 	"github.com/domjesus/api-go-gin/controllers"
+	"github.com/gin-contrib/multitemplate"
 	"github.com/gin-gonic/gin"
 )
 
 func HandleRequests() {
 	r := gin.Default()
-	r.LoadHTMLGlob("templates/*")
+	r.HTMLRender = loadTemplates("./templates")
+
+	// r.LoadHTMLGlob("templates/*")
+	// html := template.Must(template.ParseFiles("templates/index.html"))
+	// r.SetHTMLTemplate(html)
+
 	r.Static("/assets", "./assets")
 
 	// r.Static("/dist/assets", "dist/assets")
@@ -16,8 +24,11 @@ func HandleRequests() {
 	// config.AllowOrigins = []string{"*"}
 
 	r.GET("/:nome", controllers.Saudacoes)
+	r.GET("/aluno_create", controllers.AlunoCreate)
+	r.GET("/alunos_listar", controllers.ListaAlunos)
 	r.GET("/alunos", controllers.ExibeTodosAlunos)
 	r.GET("/", controllers.Home)
+	r.GET("/outro", controllers.Outro)
 	r.GET("/alunos/:id", controllers.ExibeUmAluno)
 	r.POST("/alunos", controllers.CriaNovoAluno)
 	r.DELETE("/alunos/:id", controllers.DeletaUmAluno)
@@ -33,4 +44,27 @@ func HandleRequests() {
 
 	r.Run()
 
+}
+
+func loadTemplates(templatesDir string) multitemplate.Renderer {
+	r := multitemplate.NewRenderer()
+
+	layouts, err := filepath.Glob(templatesDir + "/layouts/*.html")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	includes, err := filepath.Glob(templatesDir + "/includes/*.html")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	// Generate our templates map from our layouts/ and includes/ directories
+	for _, include := range includes {
+		layoutCopy := make([]string, len(layouts))
+		copy(layoutCopy, layouts)
+		files := append(layoutCopy, include)
+		r.AddFromFiles(filepath.Base(include), files...)
+	}
+	return r
 }

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{template "header" .}}
+  </head>
+  <body>
+    {{template "nav" .}}
+    <div class="container fluid">
+      <!-- <h3>Esta é minha página fixa editada</h3> -->
+      {{block "content" .}}{{end}}
+    </div>
+  </body>
+</html>

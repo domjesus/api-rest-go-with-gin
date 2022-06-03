@@ -7,9 +7,9 @@ import (
 
 type Aluno struct {
 	gorm.Model
-	Nome string `json:"nome" validate:"nonzero"`
-	CPF  string `json:"cpf" validate:"len=11, regexp=^[0-9]*$"`
-	RG   string `json:"rg" validate:"len=9, regexp=^[0-9]*$"`
+	Nome string `form:"nome" validate:"nonzero" json:"nome" uri:"nome"`
+	CPF  string `form:"cpf" validate:"len=11, regexp=^[0-9]*$" json:"cpf" uri:"cpf"`
+	RG   string `form:"rg" validate:"len=9, regexp=^[0-9]*$" json:"rg" uri:"rg"`
 }
 
 var Alunos []Aluno
