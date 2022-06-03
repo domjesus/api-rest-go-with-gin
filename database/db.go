@@ -1,7 +1,6 @@
 package database
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -15,7 +14,7 @@ var (
 	err error
 )
 
-func ConectaComBancoDeDados() {
+func ConectaComBancoDeDados(l *log.Logger) error {
 
 	// stringDeConexao := os.Getenv("DATABASE_URL")
 	stringDeConexao := "host=" + os.Getenv("DATABASE_HOST") + " user=" + os.Getenv("DATABASE_USER") + " password=" + os.Getenv("DATABASE_PASSWORD") + " dbname=" + os.Getenv("DATABASE_NAME") + " port=5432 sslmode=require"
@@ -23,9 +22,11 @@ func ConectaComBancoDeDados() {
 	// stringDeConexao := "host=localhost user=root password=root dbname=root port=5432 sslmode=disable"
 	DB, err = gorm.Open(postgres.Open(stringDeConexao))
 	if err != nil {
-		log.Panic("Erro ao conectar com banco de dados")
+		return err
 	}
 	DB.AutoMigrate(&models.Aluno{})
 
-	fmt.Println("Conectado com sucesso: ", DB)
+	l.Print("DB connected")
+
+	return nil
 }

@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"log"
 	"path/filepath"
 
 	"github.com/domjesus/api-go-gin/controllers"
@@ -8,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func HandleRequests() {
+func HandleRequests(l *log.Logger) {
 	r := gin.Default()
 	r.HTMLRender = loadTemplates("./templates")
 
@@ -41,6 +42,7 @@ func HandleRequests() {
 	// log.Fatal(http.ListenAndServe(":8001", handlers.CORS(handlers.AllowedOrigins([]string{"*"}))(r)))
 	// r.Use(cors.New(config))
 	// r.Use(cors.Default())
+	l.Print("Routes done")
 
 	r.Run()
 
