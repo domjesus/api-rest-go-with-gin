@@ -1,10 +1,10 @@
 package database
 
 import (
-	"log"
 	"os"
 
 	"github.com/domjesus/api-go-gin/models"
+	"go.uber.org/zap"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -14,7 +14,7 @@ var (
 	err error
 )
 
-func ConectaComBancoDeDados(l *log.Logger) error {
+func ConectaComBancoDeDados(l *zap.SugaredLogger) error {
 
 	// stringDeConexao := os.Getenv("DATABASE_URL")
 	stringDeConexao := "host=" + os.Getenv("DATABASE_HOST") + " user=" + os.Getenv("DATABASE_USER") + " password=" + os.Getenv("DATABASE_PASSWORD") + " dbname=" + os.Getenv("DATABASE_NAME") + " port=5432 sslmode=require"
@@ -26,7 +26,7 @@ func ConectaComBancoDeDados(l *log.Logger) error {
 	}
 	DB.AutoMigrate(&models.Aluno{})
 
-	l.Print("DB connected")
+	l.Info("DB connected")
 
 	return nil
 }

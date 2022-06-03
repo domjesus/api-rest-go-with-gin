@@ -1,15 +1,15 @@
 package routes
 
 import (
-	"log"
 	"path/filepath"
 
 	"github.com/domjesus/api-go-gin/controllers"
 	"github.com/gin-contrib/multitemplate"
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
-func HandleRequests(l *log.Logger) {
+func HandleRequests(l *zap.SugaredLogger) {
 	r := gin.Default()
 	r.HTMLRender = loadTemplates("./templates")
 
@@ -42,7 +42,7 @@ func HandleRequests(l *log.Logger) {
 	// log.Fatal(http.ListenAndServe(":8001", handlers.CORS(handlers.AllowedOrigins([]string{"*"}))(r)))
 	// r.Use(cors.New(config))
 	// r.Use(cors.Default())
-	l.Print("Routes done")
+	l.Info("Routes done")
 
 	r.Run()
 
