@@ -1,4 +1,4 @@
-package main_alt
+package old_main
 
 import (
 	"log"
@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func main_alt() {
+func old_main() {
 	router := gin.Default()
 	router.HTMLRender = loadTemplates("./templates")
 	router.GET("/", func(c *gin.Context) {
