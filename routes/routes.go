@@ -44,7 +44,8 @@ func HandleRequests(l *zap.SugaredLogger) {
 	// r.Use(cors.Default())
 	l.Info("Routes done")
 
-	r.Run(":8000")
+	r.Run()
+	// r.Run(":8000")
 
 }
 
