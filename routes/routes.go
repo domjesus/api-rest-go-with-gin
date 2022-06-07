@@ -37,14 +37,14 @@ func HandleRequests(l *zap.SugaredLogger) {
 	r.GET("/alunos/cpf/:cpf", controllers.BuscaAlunoPorCPF)
 
 	//router.LoadHTMLFiles("templates/template1.html", "templates/template2.html")
-	r.NoRoute(controllers.RouteNotFound)
+	// r.NoRoute(controllers.RouteNotFound)
 
 	// log.Fatal(http.ListenAndServe(":8001", handlers.CORS(handlers.AllowedOrigins([]string{"*"}))(r)))
 	// r.Use(cors.New(config))
 	// r.Use(cors.Default())
 	l.Info("Routes done")
 
-	r.Run()
+	r.Run(":8000")
 
 }
 

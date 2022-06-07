@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/domjesus/api-go-gin/database"
@@ -69,6 +70,15 @@ func CriaNovoAluno(c *gin.Context) {
 func DeletaUmAluno(c *gin.Context) {
 	var aluno models.Aluno
 	id := c.Params.ByName("id")
+
+	database.DB.First(&aluno, id)
+
+	fmt.Println("Aluno: ", aluno)
+	if aluno.ID == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"data": "Aluno não encontrado!"})
+		return
+	}
 
 	database.DB.Delete(&aluno, id)
 
