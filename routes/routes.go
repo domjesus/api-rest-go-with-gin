@@ -12,6 +12,7 @@ func HandleRequests(l *zap.SugaredLogger) {
 	r := gin.Default()
 	// r.HTMLRender = loadTemplates("./templates")
 	// r.HTMLRender = loadTemplates("./dist")
+
 	r.LoadHTMLGlob("./dist/index.html")
 
 	// r.LoadHTMLGlob("templates/*")
