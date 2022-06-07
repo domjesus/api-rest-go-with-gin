@@ -5,7 +5,7 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       "^/alunos": {
-        target: "http://localhost:8000",
+        target: "http://localhost:8080",
       },
     },
   },

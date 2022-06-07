@@ -1,34 +1,39 @@
 package routes
 
 import (
-	"path/filepath"
+	"net/http"
 
 	"github.com/domjesus/api-go-gin/controllers"
-	"github.com/gin-contrib/multitemplate"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
 
 func HandleRequests(l *zap.SugaredLogger) {
 	r := gin.Default()
-	r.HTMLRender = loadTemplates("./templates")
+	// r.HTMLRender = loadTemplates("./templates")
+	// r.HTMLRender = loadTemplates("./dist")
+	r.LoadHTMLGlob("./dist/index.html")
 
 	// r.LoadHTMLGlob("templates/*")
 	// html := template.Must(template.ParseFiles("templates/index.html"))
 	// r.SetHTMLTemplate(html)
 
-	r.Static("/assets", "./assets")
+	r.Static("/js", "./dist/js")
+	r.Static("/css", "./dist/css")
 
 	// r.Static("/dist/assets", "dist/assets")
 
 	// config := cors.DefaultConfig()
 	// config.AllowOrigins = []string{"*"}
 
-	r.GET("/:nome", controllers.Saudacoes)
+	// r.GET("/:nome", controllers.Saudacoes)
+	r.GET("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.html", nil)
+	})
 	r.GET("/aluno_create", controllers.AlunoCreate)
 	r.GET("/alunos_listar", controllers.ListaAlunos)
 	r.GET("/alunos", controllers.ExibeTodosAlunos)
-	r.GET("/", controllers.Home)
+	// r.GET("/", controllers.Home)
 	r.GET("/outro", controllers.Outro)
 	r.GET("/alunos/:id", controllers.ExibeUmAluno)
 	r.POST("/alunos", controllers.CriaNovoAluno)
@@ -49,25 +54,25 @@ func HandleRequests(l *zap.SugaredLogger) {
 
 }
 
-func loadTemplates(templatesDir string) multitemplate.Renderer {
-	r := multitemplate.NewRenderer()
+// func loadTemplates(templatesDir string) multitemplate.Renderer {
+// 	r := multitemplate.NewRenderer()
 
-	layouts, err := filepath.Glob(templatesDir + "/layouts/*.html")
-	if err != nil {
-		panic(err.Error())
-	}
+// 	layouts, err := filepath.Glob(templatesDir + "/*.html")
+// 	if err != nil {
+// 		panic(err.Error())
+// 	}
 
-	includes, err := filepath.Glob(templatesDir + "/includes/*.html")
-	if err != nil {
-		panic(err.Error())
-	}
+// includes, err := filepath.Glob(templatesDir + "/includes/*.html")
+// if err != nil {
+// 	panic(err.Error())
+// }
 
-	// Generate our templates map from our layouts/ and includes/ directories
-	for _, include := range includes {
-		layoutCopy := make([]string, len(layouts))
-		copy(layoutCopy, layouts)
-		files := append(layoutCopy, include)
-		r.AddFromFiles(filepath.Base(include), files...)
-	}
-	return r
-}
+// Generate our templates map from our layouts/ and includes/ directories
+// for _, include := range includes {
+// 	layoutCopy := make([]string, len(layouts))
+// 	copy(layoutCopy, layouts)
+// 	files := append(layoutCopy, include)
+// 	r.AddFromFiles(filepath.Base(include), files...)
+// }
+// return r
+// }
