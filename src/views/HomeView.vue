@@ -3,11 +3,9 @@
     <alunos-list-component
       msg="Minha mensagem custom"
       @deleteItem="deleteItem"
-      :alunos="alunos"
     />
-    <v-overlay :value="overlay">
-      <v-progress-circular indeterminate size="64"></v-progress-circular>
-    </v-overlay>
+
+    <overlay-component :show="showOverlay" />
 
     <v-snackbar
       v-model="snackbar"
@@ -25,59 +23,69 @@
         </v-btn>
       </template>
     </v-snackbar>
+    <router-link to="/aluno_create">
+      <v-btn class="mx-2" fab dark large right bottom color="primary">
+        <v-icon dark> mdi-plus </v-icon>
+      </v-btn>
+    </router-link>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import AlunosListComponent from "../components/AlunosListComponent.vue";
+import OverlayComponent from "@/components/OverlayComponent.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "HomeComponent",
 
   components: {
     AlunosListComponent,
+    OverlayComponent,
   },
   data: () => {
     return {
-      overlay: false,
+      showOverlay: false,
       snackbar: false,
       typeSnack: "",
       textSnack: "",
-      alunos: [],
     };
   },
   methods: {
     deleteItem(itemId) {
-      this.overlay = true;
+      this.showOverlay = true;
       console.log("Component pai: You are deleting this item...", itemId);
 
       axios
         .delete("/alunos/" + itemId)
         .then((r) => {
           // console.log("Alunos: ", this.alunos);
-          console.log("Result of delete: ", r.data);
+          // console.log("Result of delete: ", r.data);
 
           this.textSnack = r.data.data;
           this.typeSnack = "success";
           this.snackbar = true;
-          this.alunos = this.alunos.filter((a) => a.ID != itemId);
+          this.$store.dispatch(
+            "changeAlunos",
+            this.alunos.filter((a) => a.ID != itemId)
+          );
 
           // r.data.status == 200 ? "success" : "red accent-2";
         })
         .catch((err) => {
           this.snackbar = true;
           this.typeSnack = "red accent-2";
-          // console.log("Result of delete: ", err.response.data);
+          // console.log("Result of ERROR delete: ", err);
           const resp = err.response.data;
           this.textSnack = "Erro: ";
           this.textSnack = resp.data;
         })
         .finally(() => {
           // setTimeout(() => {
-          //   this.overlay = false;
+          //   this.showOverlay = false;
           // }, 3000);
-          this.overlay = !this.overlay;
+          this.showOverlay = !this.showOverlay;
         });
     },
   },
@@ -85,28 +93,11 @@ export default {
     // console.log(import.meta.env);
     console.log("Montado");
     // const myenv = import.meta.env.VITE_APP_NAME;
-
-    axios
-      .get("/alunos", {
-        method: "GET",
-      })
-      .then((res) => {
-        this.alunos = res.data;
-        // this.alunos.concat("Outro item");
-
-        // this.alunos = [
-        //   {
-        //     nome: "jose manoel",
-        //     rg: "123456",
-        //     cpf: "123456654",
-        //     ID: 1,
-        //   },
-        // ]
-        //   .concat(res.data)
-        //   .concat(res.data)
-        //   .concat(res.data);
-        // console.log(res.data);
-      });
+    this.$store.dispatch("changeAlunos");
+    // console.log("Store: ", this.$store.getters);
+  },
+  computed: {
+    ...mapGetters({ alunos: "getAlunos" }),
   },
 };
 </script>

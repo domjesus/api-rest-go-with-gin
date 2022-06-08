@@ -1,22 +1,9 @@
 <script>
 import { VSimpleTable } from "vuetify";
-import axios from "axios";
+import { mapGetters } from "vuex";
 
 export default {
   name: "AlunosListComponent",
-  // props: [msg],
-  props: {
-    alunos: {
-      type: Array,
-      required: true,
-    },
-  },
-  // data: () => {
-  //   return {
-  //     alunos: [],
-  //   };
-  // },
-
   components: {
     VSimpleTable,
   },
@@ -25,6 +12,9 @@ export default {
   //     console.log("You are deleting this item...", itemId);
   //   },
   // },
+  computed: {
+    ...mapGetters({ alunos: "getAlunos" }),
+  },
 };
 </script>
 

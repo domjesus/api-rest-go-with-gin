@@ -63,8 +63,14 @@ func CriaNovoAluno(c *gin.Context) {
 	}
 
 	database.DB.Create(&aluno)
+
+	c.JSON(http.StatusOK, gin.H{
+		"data":  "Aluno criado com sucesso!",
+		"aluno": aluno,
+	})
+
 	// c.Request.URL.Path = "/alunos_listar"
-	c.Redirect(301, "/alunos_listar")
+	// c.Redirect(301, "/aluno_create")
 }
 
 func DeletaUmAluno(c *gin.Context) {
