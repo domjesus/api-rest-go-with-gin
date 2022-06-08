@@ -43,6 +43,7 @@
     <error-component :errors="errors" />
     <success-component :aluno="aluno" />
     <p v-if="Object.entries(aluno).length">Redireciona em {{ redireciona }}s</p>
+    <overlay-component :show="showOverlay" />
   </v-form>
 </template>
 
@@ -50,11 +51,13 @@
 import axios from "axios";
 import ErrorComponent from "../componentes_reutilizaveis/ErrorComponent.vue";
 import SuccessComponent from "../componentes_reutilizaveis/SuccessComponent.vue";
+import OverlayComponent from "./OverlayComponent.vue";
 
 export default {
-  components: { ErrorComponent, SuccessComponent },
+  components: { ErrorComponent, SuccessComponent, OverlayComponent },
   name: "AlunosCreateComponent",
   data: () => ({
+    showOverlay: false,
     redireciona: 5,
     aluno: {},
     errors: [],
@@ -86,6 +89,8 @@ export default {
   }),
   methods: {
     submitForm() {
+      this.showOverlay = true;
+
       console.log("Submiting: ", this.nome, this.rg, this.cpf);
       if (!this.valid) {
         this.errors = ["Verifique os campos com erro!"];
@@ -105,6 +110,8 @@ export default {
           //   error.split(",");
         })
         .finally(() => {
+          this.showOverlay = false;
+
           const redir = setInterval(() => this.redireciona--, 1000);
           setTimeout(() => {
             clearInterval(redir);

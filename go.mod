@@ -53,6 +53,7 @@ require (
 require (
 	github.com/goccy/go-json v0.9.7 // indirect
 	github.com/google/go-cmp v0.5.6 // indirect
+	github.com/joho/godotenv v1.4.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.1 // indirect
 	github.com/pkg/errors v0.8.2-0.20190227000051-27936f6d90f9 // indirect
 	go.uber.org/atomic v1.6.0 // indirect
