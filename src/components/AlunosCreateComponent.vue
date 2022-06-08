@@ -95,6 +95,7 @@ export default {
       if (!this.valid) {
         this.errors = ["Verifique os campos com erro!"];
         setTimeout(() => (this.errors = []), 5000);
+        this.showOverlay = false;
         return;
       }
 

@@ -29,7 +29,7 @@ func ConectaComBancoDeDados(l *zap.SugaredLogger) error {
 	// if env != "local" {
 	stringDeConexao := "host=" + os.Getenv("DATABASE_HOST") + " user=" + os.Getenv("DATABASE_USER") + " password=" + os.Getenv("DATABASE_PASSWORD") + " dbname=" + os.Getenv("DATABASE_NAME") + " port=5432 sslmode=require"
 
-	// stringDeConexao = "host=localhost user=root password=root dbname=root port=5432 sslmode=disable"
+	// stringDeConexao := "host=localhost user=root password=root dbname=root port=5432 sslmode=disable"
 
 	DB, err = gorm.Open(postgres.Open(stringDeConexao))
 	if err != nil {
